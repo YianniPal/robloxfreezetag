@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Freeze Tag Update Countdown</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 900px;
+            padding: 40px;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #60a5fa;
+            margin-bottom: 40px;
+        }
+
+        #countdown {
+            font-size: 5rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .status {
+            font-size: 2rem;
+        }
+
+        .released {
+            color: #4ade80;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>❄️ Roblox Freeze Tag ❄️</h1>
+    <h2>Update Countdown</h2>
+
+    <div id="countdown">30</div>
+
+    <div class="status" id="status">
+        Update launches soon...
+    </div>
+</div>
+
+<script>
+
+let timeLeft = 30;
+
+const countdown = document.getElementById("countdown");
+const status = document.getElementById("status");
+
+const timer = setInterval(() => {
+
+    countdown.textContent = timeLeft;
+
+    if (timeLeft <= 0) {
+
+        clearInterval(timer);
+
+        countdown.textContent = "🎉";
+        status.innerHTML = "<span class='released'>UPDATE IS OUT!</span>";
+
+        launchConfetti();
+    }
+
+    timeLeft--;
+
+}, 1000);
+
+function launchConfetti() {
+
+    const duration = 15000;
+    const end = Date.now() + duration;
+
+    (function frame() {
+
+        confetti({
+            particleCount: 6,
+            angle: 60,
+            spread: 80,
+            origin: { x: 0 }
+        });
+
+        confetti({
+            particleCount: 6,
+            angle: 120,
+            spread: 80,
+            origin: { x: 1 }
+        });
+
+        if (Date.now() < end) {
+            requestAnimationFrame(frame);
+        }
+
+    }());
+
+}
+</script>
+
+</body>
+</html>
