@@ -11,7 +11,7 @@
 // Current test countdown: 30 seconds
 
 const releaseDate = new Date(
-    Date.now() + 30000
+    "June 26, 2026 12:00:00"
 );
 
 // ==================================
