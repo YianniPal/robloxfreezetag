@@ -3,21 +3,14 @@
    BIGGEST REVAMP COUNTDOWN
 ================================== */
 
-// ==================================
-// RELEASE DATE
-// ==================================
-
-// CHANGE THIS LATER IF NEEDED
-// Current test countdown: 30 seconds
+// REAL RELEASE COUNTDOWN
+// Hidden from players
 
 const releaseDate = new Date(
-    "June 26, 2026 12:00:00"
+    "June 26, 2026 00:00:00"
 );
 
-// ==================================
 // ELEMENTS
-// ==================================
-
 const daysEl = document.getElementById("days");
 const hoursEl = document.getElementById("hours");
 const minutesEl = document.getElementById("minutes");
@@ -26,14 +19,10 @@ const secondsEl = document.getElementById("seconds");
 const releaseMessage =
     document.getElementById("release-message");
 
-// ==================================
-// COUNTDOWN
-// ==================================
-
+// UPDATE COUNTDOWN
 function updateCountdown() {
 
     const now = new Date().getTime();
-
     const distance =
         releaseDate.getTime() - now;
 
@@ -47,43 +36,35 @@ function updateCountdown() {
         secondsEl.textContent = "00";
 
         releaseMessage.innerHTML =
-            "🎉 THE BIGGEST REVAMP IS LIVE! 🎉";
+            "🎉 THE BIGGEST REVAMP IS NOW LIVE! 🎉";
 
         startConfetti();
-
         startTitleAnimation();
 
         return;
     }
 
-    const days =
-        Math.floor(
-            distance / (1000 * 60 * 60 * 24)
-        );
+    const days = Math.floor(
+        distance / (1000 * 60 * 60 * 24)
+    );
 
-    const hours =
-        Math.floor(
-            (distance %
-            (1000 * 60 * 60 * 24))
-            /
-            (1000 * 60 * 60)
-        );
+    const hours = Math.floor(
+        (distance %
+            (1000 * 60 * 60 * 24)) /
+        (1000 * 60 * 60)
+    );
 
-    const minutes =
-        Math.floor(
-            (distance %
-            (1000 * 60 * 60))
-            /
-            (1000 * 60)
-        );
+    const minutes = Math.floor(
+        (distance %
+            (1000 * 60 * 60)) /
+        (1000 * 60)
+    );
 
-    const seconds =
-        Math.floor(
-            (distance %
-            (1000 * 60))
-            /
-            1000
-        );
+    const seconds = Math.floor(
+        (distance %
+            (1000 * 60)) /
+        1000
+    );
 
     daysEl.textContent =
         String(days).padStart(2, "0");
@@ -98,68 +79,36 @@ function updateCountdown() {
         String(seconds).padStart(2, "0");
 }
 
-// ==================================
 // CONFETTI
-// ==================================
-
 function startConfetti() {
 
-    const duration = 20000;
+    const duration = 30000;
+    const end = Date.now() + duration;
 
-    const animationEnd =
-        Date.now() + duration;
+    (function frame() {
 
-    const defaults = {
-        startVelocity: 30,
-        spread: 360,
-        ticks: 100,
-        zIndex: 9999
-    };
+        confetti({
+            particleCount: 8,
+            angle: 60,
+            spread: 80,
+            origin: { x: 0 }
+        });
 
-    function randomInRange(min, max) {
-        return Math.random() *
-            (max - min) + min;
-    }
+        confetti({
+            particleCount: 8,
+            angle: 120,
+            spread: 80,
+            origin: { x: 1 }
+        });
 
-    const interval = setInterval(() => {
-
-        const timeLeft =
-            animationEnd - Date.now();
-
-        if (timeLeft <= 0) {
-            clearInterval(interval);
-            return;
+        if (Date.now() < end) {
+            requestAnimationFrame(frame);
         }
 
-        const particleCount =
-            50 * (timeLeft / duration);
-
-        confetti({
-            ...defaults,
-            particleCount,
-            origin: {
-                x: randomInRange(0.1, 0.3),
-                y: Math.random() - 0.2
-            }
-        });
-
-        confetti({
-            ...defaults,
-            particleCount,
-            origin: {
-                x: randomInRange(0.7, 0.9),
-                y: Math.random() - 0.2
-            }
-        });
-
-    }, 250);
-
+    })();
 }
 
-// ==================================
-// TAB TITLE FLASH
-// ==================================
-
+// TITLE FLASHING
 function startTitleAnimation() {
 
     let toggle = false;
@@ -173,14 +122,11 @@ function startTitleAnimation() {
         toggle = !toggle;
 
     }, 1000);
-
 }
 
-// ==================================
-// INITIALIZE
-// ==================================
-
+// START
 updateCountdown();
-
-const timer =
-    setInterval(updateCountdown, 1000);
+const timer = setInterval(
+    updateCountdown,
+    1000
+);
